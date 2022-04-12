@@ -23,6 +23,12 @@ touch .env
     PORT=8081
 =========================> <=========================
 
-npx nodemon app
-
 npm install cors
+
+npm i mongoose
+
+npm i bcryptjs  ==>(Para encriptar contraseñas)
+
+npm i express-validator  ==>(Para validar peticiones en el middleware de routes)
+
+npx nodemon app
