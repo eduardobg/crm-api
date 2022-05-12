@@ -31,4 +31,9 @@ npm i bcryptjs  ==>(Para encriptar contraseñas)
 
 npm i express-validator  ==>(Para validar peticiones en el middleware de routes)
 
-npx nodemon app
+
+
+================> Despues de descargarlo del github <================ 
+npm install
+
+npx nodemon 
