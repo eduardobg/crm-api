@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +18,8 @@
     "express": "^4.17.3",
     "express-validator": "^6.14.0",
     "mongoose": "^6.2.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
   }
 }
