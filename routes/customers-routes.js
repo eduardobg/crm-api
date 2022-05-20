@@ -9,12 +9,20 @@ const {
     customersGet, 
     customersPost,
     customersPut,
-    customersStatePut
+    customersStatePut,
+    customerGetById
 } = require('../controllers/customers-controllers')
 
 const router = Router();
 
 router.get('/', customersGet);
+
+router.get('/:id',[
+    check('id','No es un ID válido').isMongoId(),
+    check('id').custom( customerExistsById ),
+
+    validateFields
+], customerGetById);
 
 router.post('/', [
     check('name', 'Se necesita un Nombre').not().isEmpty(),

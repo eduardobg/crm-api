@@ -7,7 +7,7 @@ const Customer = require('../models/customer.js');
 
 const customersGet = async(req, res = response) => {
 
-    const{ limit=3, from=0 } = req.query
+    const{ limit=10, from=0 } = req.query
     const query = { state: "Activo"};
 
     const [total, customers] = await Promise.all([
@@ -21,6 +21,26 @@ const customersGet = async(req, res = response) => {
         total,
         customers
     });
+}
+
+const customerGetById = async(req, res = response) => {
+
+    const { id } = req.params;
+
+    Customer.findById(id, (err, customerDB ) => {
+        if(err){
+            //throw new Error(err);
+            return res.status(400).json({
+                ok: 'false',
+                err
+            });
+        }
+        return res.json({
+            ok:'true',
+            customer: customerDB
+        });
+    });
+
 }
 
 const customersPost = async(req, res = response) => {
@@ -88,5 +108,6 @@ module.exports = {
     customersGet,
     customersPost,
     customersPut,
-    customersStatePut
+    customersStatePut,
+    customerGetById
 }
