@@ -42,7 +42,7 @@ const customerSchema = Schema({
     seller:[{
         _id:{
             type: String,
-            required: [false,'Campo requerido: Email']
+            required: [false,'Campo requerido: Id de Vendedor']
         } 
     }]
 })
