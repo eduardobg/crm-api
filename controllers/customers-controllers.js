@@ -8,11 +8,11 @@ const Customer = require('../models/customer.js');
 const customersGet = async(req, res = response) => {
 
     const{ limit=10, from=0 } = req.query
-    const query = { state: "Activo"};
+    //const query = { state: "Activo"}; query para filtrar estadp
 
     const [total, customers] = await Promise.all([
-        Customer.count(query),
-        Customer.find(query)
+        Customer.count(),//Customer.count(query)
+        Customer.find()
             .skip(from)
             .limit(limit)
     ]);
@@ -26,8 +26,9 @@ const customersGet = async(req, res = response) => {
 const customerGetById = async(req, res = response) => {
 
     const { id } = req.params;
+    const _idConditional = {_id : id};
 
-    Customer.findById(id, (err, customerDB ) => {
+    Customer.findById(_idConditional, (err, customerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
@@ -61,10 +62,11 @@ const customersPost = async(req, res = response) => {
 const customersPut = (req, res = response) => {
 
     const { id } = req.params;
+    const _idConditional = {_id : id};
     const {name, lastName, businessName, ruc_dni, createAt, address, phone, email, state="Activo", seller } = req.body;
     const update = {name: name, lastName: lastName, businessName: businessName, ruc_dni: ruc_dni, address: address, phone: phone, seller: seller};
     //create_at, state, email,
-    Customer.findOneAndUpdate(id, update, {new:true}, (err, customerDB ) => {
+    Customer.findOneAndUpdate(_idConditional, update, {new:true}, (err, customerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
@@ -84,10 +86,11 @@ const customersPut = (req, res = response) => {
 const customersStatePut = (req, res = response) => {
 
     const { id, state } = req.params;
+    const _idConditional = {_id : id};
     const update = {state : state};
    // const {create_at, state, email, ...the_rest} = req.body;
     
-    Customer.findOneAndUpdate(id, update, {new:true}, (err, customerDB ) => {
+    Customer.findOneAndUpdate(_idConditional, update, {new:true}, (err, customerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
