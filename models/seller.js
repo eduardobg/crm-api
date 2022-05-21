@@ -15,7 +15,7 @@ const sellerSchema = Schema({
         required: [true,'Campo requerido: Contraseña']
     },
     role: {
-        type: Number,
+        type: String,
         required: [true,'Campo requerido: Rol']
     },
     createAt: {
@@ -43,4 +43,4 @@ const sellerSchema = Schema({
 })
 
 
-module.exports = mongoose.model('Seller', customerSchema);
+module.exports = mongoose.model('Seller', sellerSchema);

@@ -1,6 +1,6 @@
 const { response } = require('express');
 
-//const bcryptjs = require('bcryptjs');
+const bcryptjs = require('bcryptjs');
 
 const Seller = require('../models/seller.js');
 //const { use } = require('express/lib/application');
@@ -8,11 +8,11 @@ const Seller = require('../models/seller.js');
 const sellersGet = async(req, res = response) => {
 
     const{ limit=10, from=0 } = req.query
-    const query = { state: "Activo"};
+    //const query = { state: "Activo"};
 
     const [total, sellers] = await Promise.all([
-        Seller.count(query),
-        Seller.find(query)
+        Seller.count(),
+        Seller.find()
             .skip(from)
             .limit(limit)
     ]);
@@ -26,8 +26,9 @@ const sellersGet = async(req, res = response) => {
 const sellersGetById = async(req, res = response) => {
 
     const { id } = req.params;
+    const _idConditional = {_id : id};
 
-    Seller.findById(id, (err, customerDB ) => {
+    Seller.findById(_idConditional, (err, sellerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
@@ -37,34 +38,38 @@ const sellersGetById = async(req, res = response) => {
         }
         return res.json({
             ok:'true',
-            seller: customerDB
+            seller: sellerDB
         });
     });
 
 }
 
-const customersPost = async(req, res = response) => {
+const sellersPost = async(req, res = response) => {
 
     //Error validator 
-    const { name, lastName, businessName, ruc_dni, createAt, address, phone, email, state="Activo", seller } = req.body;
-    const customer = new Customer( {name, lastName, businessName, ruc_dni, createAt, address, phone, email, state, seller } );    
+    const { name, lastName, password, role="vendedor", createAt, phone, email, state="Activo", supervisor } = req.body;
+    const seller = new Seller( {name, lastName, password, role, createAt, phone, email, state, supervisor } );    
+
+    const salt = bcryptjs.genSaltSync();
+    seller.password = bcryptjs.hashSync( password, salt);
 
     //Para grabar el registro
-    await customer.save();
+    await seller.save();
 
     res.json({
         ok:'true',
-        customer:customer
+        seller:seller
     });
 }
 
-const customersPut = (req, res = response) => {
+const sellersPut = (req, res = response) => {
 
     const { id } = req.params;
-    const {name, lastName, businessName, ruc_dni, createAt, address, phone, email, state="Activo", seller } = req.body;
-    const update = {name: name, lastName: lastName, businessName: businessName, ruc_dni: ruc_dni, address: address, phone: phone, seller: seller};
+    const _idConditional = {_id : id};
+    const { name, lastName, phone, email, state="Activo", supervisor } = req.body;
+    const update = {name: name, lastName: lastName, phone: phone, supervisor: supervisor};
     //create_at, state, email,
-    Customer.findOneAndUpdate(id, update, {new:true}, (err, customerDB ) => {
+    Seller.findOneAndUpdate(_idConditional, update, {new:true}, (err, sellerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
@@ -75,19 +80,20 @@ const customersPut = (req, res = response) => {
         }
         return res.json({
             ok:'true',
-            customer: customerDB
+            seller: sellerDB
         });
     })
     
 }
 
-const customersStatePut = (req, res = response) => {
+const sellersStatePut = (req, res = response) => {
 
     const { id, state } = req.params;
+    const _idConditional = {_id : id};
     const update = {state : state};
    // const {create_at, state, email, ...the_rest} = req.body;
     
-    Customer.findOneAndUpdate(id, update, {new:true}, (err, customerDB ) => {
+    Seller.findOneAndUpdate(_idConditional, update, {new:true}, (err, sellerDB ) => {
         if(err){
             //throw new Error(err);
             return res.status(400).json({
@@ -98,16 +104,16 @@ const customersStatePut = (req, res = response) => {
         }
         return res.json({
             ok:'true',
-            customer: customerDB
+            seller: sellerDB
         });
     })
     
 }
 
 module.exports = {
-    customersGet,
-    customersPost,
-    customersPut,
-    customersStatePut,
-    customerGetById
+    sellersGet,
+    sellersPost,
+    sellersPut,
+    sellersStatePut,
+    sellersGetById
 }

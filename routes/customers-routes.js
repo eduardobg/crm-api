@@ -3,7 +3,12 @@ const { check } = require('express-validator');
 
 const { validateFields } = require('../middleware/validate-fields');
 
-const { customerEmailExists, verifyStatusName, customerExistsById } = require('../helpers/db-validators');
+const { 
+    customerEmailExists,
+    sellerEmailExists, 
+    verifyStatusName, 
+    customerExistsById 
+} = require('../helpers/db-validators');
 
 const { 
     customersGet, 
@@ -28,6 +33,7 @@ router.post('/', [
     check('name', 'Se necesita un Nombre').not().isEmpty(),
     check('email', 'Se necesita un e-mail').isEmail(),
     check('email').custom(customerEmailExists),
+    check('email').custom(sellerEmailExists),
     
     validateFields
 ],customersPost);

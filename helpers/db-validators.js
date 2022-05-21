@@ -1,8 +1,17 @@
 const Customer = require('../models/customer.js');
+const Seller = require('../models/seller.js');
 
 const customerEmailExists = async(email = '') => {
 
     const emailExists = await Customer.findOne( {email} );
+    if( emailExists ){
+        throw new Error(`El ${email} ya esta siendo utilizado! Prueba con otra`)
+    }
+}
+
+const sellerEmailExists = async(email = '') => {
+
+    const emailExists = await Seller.findOne( {email} );
     if( emailExists ){
         throw new Error(`El ${email} ya esta siendo utilizado! Prueba con otra`)
     }
@@ -25,9 +34,19 @@ const customerExistsById = async( id) => {
     }
 }
 
+const sellerExistsById = async( id) => {
+
+    const idExists = await Seller.findById( id );
+    if( !idExists ){
+        throw new Error(`No se encontro ningun vendedor con el id: ${id} `)
+    }
+}
+
 
 module.exports = {
     customerEmailExists,
+    sellerEmailExists,
     verifyStatusName,
-    customerExistsById
+    customerExistsById,
+    sellerExistsById
 }
