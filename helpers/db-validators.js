@@ -2,6 +2,7 @@ const Supervisor = require('../models/supervisor.js');
 const Customer = require('../models/customer.js');
 const Seller = require('../models/seller.js');
 const Distribution = require('../models/distribution.js');
+const Template = require('../models/template.js');
 
 const customerEmailExists = async(email = '') => {
 
@@ -69,6 +70,14 @@ const distributionExistsById = async( id) => {
     }
 }
 
+const templateExistsById = async( id) => {
+
+    const idExists = await Template.findById( id );
+    if( !idExists ){
+        throw new Error(`No se encontro ninguna plantilla de mensaje con el id: ${id} `)
+    }
+}
+
 module.exports = {
     customerEmailExists,
     sellerEmailExists,
@@ -77,5 +86,6 @@ module.exports = {
     customerExistsById,
     supervisorExistsById,
     sellerExistsById,
-    distributionExistsById
+    distributionExistsById,
+    templateExistsById
 }
