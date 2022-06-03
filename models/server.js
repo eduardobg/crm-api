@@ -15,6 +15,7 @@ class Server{
         this.supervisorPath = '/api/supervisors';
         this.distributionPath = '/api/distributions';
         this.templatePath = '/api/templates';
+        this.sendCampaignPath = '/api/campaign';
 
         //Conectarse a la BD
         this.conectarDB();
@@ -46,6 +47,7 @@ class Server{
         this.app.use(this.supervisorPath, require('../routes/supervisors-routes'));
         this.app.use(this.distributionPath, require('../routes/distributions-routes'));
         this.app.use(this.templatePath, require('../routes/templates-routes'));
+        this.app.use(this.sendCampaignPath, require('../routes/campaignMessage-routes'));
     }
 
     listen(){
