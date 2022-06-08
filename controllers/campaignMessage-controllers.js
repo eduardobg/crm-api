@@ -10,8 +10,8 @@ const client = require('twilio')(config.accountSid, config.authToken);
 
 const campaignMessagesGetById = async(req, res = response) => {
 
-    const{ id } = req.query
-    
+    const{ id } = req.params
+
     const query = { id_seller: id};
 
     const [total, campaignMessages] = await Promise.all([
