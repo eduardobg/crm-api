@@ -8,7 +8,8 @@ const Template = require('../models/template.js');
 const templatesGet = async(req, res = response) => {
 
     const{ limit=10, from=0 } = req.query
-    //const query = { state: "Activo"};
+    
+    
 
     const [total, templates] = await Promise.all([
         Template.count(),
