@@ -4,6 +4,8 @@ const { check } = require('express-validator');
 const { validateFields } = require('../middleware/validate-fields');
 
 const {
+    customerDniExists,
+    sellerDniExists,
     customerEmailExists,
     sellerEmailExists, 
     verifyStatusName, 
@@ -30,6 +32,11 @@ router.get('/:id',[
 ], sellersGetById);
 
 router.post('/', [
+    check('dni').not().isEmpty(),
+    check('dni').isNumeric(),
+    check('dni', 'El DNI debe tener al menos 8 caracteres').isLength( {min:8} ),
+    check('dni').custom(customerDniExists),
+    check('dni').custom(sellerDniExists),
     check('name', 'Se necesita un Nombre').not().isEmpty(),
     check('password', 'La contraseña debe tener al menos 6 caracteres').isLength( {min:6} ),
     check('email', 'Se necesita un e-mail').isEmail(),

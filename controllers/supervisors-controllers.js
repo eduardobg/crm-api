@@ -47,8 +47,8 @@ const supervisorsGetById = async(req, res = response) => {
 const supervisorsPost = async(req, res = response) => {
 
     //Error validator 
-    const { name, lastName, password, role="supervisor", createAt, phone, email, state="Activo", ddcenter } = req.body;
-    const supervisor = new Supervisor( {name, lastName, password, role, createAt, phone, email, state, ddcenter } );    
+    const {dni, name, lastName, password, role="supervisor", createAt, phone, email, state="Activo", ddcenter } = req.body;
+    const supervisor = new Supervisor( {dni, name, lastName, password, role, createAt, phone, email, state, ddcenter } );    
 
     const salt = bcryptjs.genSaltSync();
     supervisor.password = bcryptjs.hashSync( password, salt);
@@ -66,8 +66,8 @@ const supervisorsPut = (req, res = response) => {
 
     const { id } = req.params;
     const _idConditional = {_id : id};
-    const { name, lastName, phone, email, state="Activo", ddcenter } = req.body;
-    const update = {name: name, lastName: lastName, phone: phone, ddcenter: ddcenter};
+    const { dni, name, lastName, phone, email, state="Activo", ddcenter } = req.body;
+    const update = { dni:dni, name: name, lastName: lastName, phone: phone, ddcenter: ddcenter};
     //create_at, state, email,
     Supervisor.findOneAndUpdate(_idConditional, update, {new:true}, (err, supervisorDB ) => {
         if(err){

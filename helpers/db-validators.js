@@ -4,6 +4,22 @@ const Seller = require('../models/seller.js');
 const Distribution = require('../models/distribution.js');
 const Template = require('../models/template.js');
 
+const customerDniExists = async(dni = '') => {
+
+    const dniExists = await Customer.findOne( {dni} );
+    if( dniExists ){
+        throw new Error(`El dni ${dni} ya esta registrado!, Prueba con otro`)
+    }
+}
+
+const sellerDniExists = async(dni = '') => {
+
+    const dniExists = await Seller.findOne( {dni} );
+    if( dniExists ){
+        throw new Error(`El dni ${dni} ya esta registrado!, Prueba con otro`)
+    }
+}
+
 const customerEmailExists = async(email = '') => {
 
     const emailExists = await Customer.findOne( {email} );
@@ -79,6 +95,8 @@ const templateExistsById = async( id) => {
 }
 
 module.exports = {
+    customerDniExists,
+    sellerDniExists,
     customerEmailExists,
     sellerEmailExists,
     supervisorEmailExists,

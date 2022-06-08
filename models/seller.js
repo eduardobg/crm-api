@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 const sellerSchema = Schema({
+    dni: {
+        type: String,
+        required: [true,'Campo requerido: DNI']
+    },
     name: {
         type: String,
         required: [true,'Campo requerido: Nombre']

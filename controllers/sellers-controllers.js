@@ -47,8 +47,8 @@ const sellersGetById = async(req, res = response) => {
 const sellersPost = async(req, res = response) => {
 
     //Error validator 
-    const { name, lastName, password, role="vendedor", createAt, phone, email, state="Activo", supervisor } = req.body;
-    const seller = new Seller( {name, lastName, password, role, createAt, phone, email, state, supervisor } );    
+    const {dni, name, lastName, password, role="vendedor", createAt, phone, email, state="Activo", supervisor } = req.body;
+    const seller = new Seller( {dni, name, lastName, password, role, createAt, phone, email, state, supervisor } );    
 
     const salt = bcryptjs.genSaltSync();
     seller.password = bcryptjs.hashSync( password, salt);
@@ -66,8 +66,8 @@ const sellersPut = (req, res = response) => {
 
     const { id } = req.params;
     const _idConditional = {_id : id};
-    const { name, lastName, phone, email, state="Activo", supervisor } = req.body;
-    const update = {name: name, lastName: lastName, phone: phone, supervisor: supervisor};
+    const {dni, name, lastName, phone, email, state="Activo", supervisor } = req.body;
+    const update = { dni:dni, name: name, lastName: lastName, phone: phone, supervisor: supervisor};
     //create_at, state, email,
     Seller.findOneAndUpdate(_idConditional, update, {new:true}, (err, sellerDB ) => {
         if(err){
