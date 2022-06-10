@@ -44,6 +44,27 @@ const supervisorsGetById = async(req, res = response) => {
 
 }
 
+const supervisorsGetByDni = async(req, res = response) => {
+
+    const { dni } = req.params;
+    const _idConditional = {dni : dni};
+
+    Supervisor.findOne(_idConditional, (err, supervisorDB ) => {
+        if(err){
+            //throw new Error(err);
+            return res.status(400).json({
+                ok: 'false',
+                err
+            });
+        }
+        return res.json({
+            ok:'true',
+            supervisorDB: supervisorDB
+        });
+    });
+
+}
+
 const supervisorsPost = async(req, res = response) => {
 
     //Error validator 
@@ -115,5 +136,6 @@ module.exports = {
     supervisorsPost,
     supervisorsPut,
     supervisorsStatePut,
-    supervisorsGetById
+    supervisorsGetById,
+    supervisorsGetByDni
 }

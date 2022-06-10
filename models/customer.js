@@ -16,7 +16,7 @@ const customerSchema = Schema({
         required: [true,'Campo requerido: Nombre comercial']
     },
     ruc_dni: {
-        type: Number,
+        type: String,
         required: [true,'Campo requerido: Ruc o DNI']
     },
     createAt: {

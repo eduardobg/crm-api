@@ -44,6 +44,27 @@ const customerGetById = async(req, res = response) => {
 
 }
 
+const customerGetByDniRuc = async(req, res = response) => {
+
+    const { ruc_dni } = req.params;
+    const _idConditional = {ruc_dni : ruc_dni};
+
+    Customer.findOne(_idConditional, (err, customerDB ) => {
+        if(err){
+            //throw new Error(err);
+            return res.status(400).json({
+                ok: 'false',
+                err
+            });
+        }
+        return res.json({
+            ok:'true',
+            customer: customerDB
+        });
+    });
+
+}
+
 const customersPost = async(req, res = response) => {
 
     //Error validator 
@@ -112,5 +133,6 @@ module.exports = {
     customersPost,
     customersPut,
     customersStatePut,
-    customerGetById
+    customerGetById,
+    customerGetByDniRuc
 }

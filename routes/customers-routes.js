@@ -15,7 +15,8 @@ const {
     customersPost,
     customersPut,
     customersStatePut,
-    customerGetById
+    customerGetById,
+    customerGetByDniRuc
 } = require('../controllers/customers-controllers')
 
 const router = Router();
@@ -28,6 +29,15 @@ router.get('/:id',[
 
     validateFields
 ], customerGetById);
+
+router.get('/dni/:ruc_dni',[
+    check('ruc_dni').not().isEmpty(),
+    check('ruc_dni').isNumeric(),
+    check('ruc_dni', 'El DNI o RUC debe tener entre 8 o 11 caracteres').isLength( {min:8} ),
+    check('ruc_dni', 'El DNI o RUC debe tener entre 8 o 11 caracteres').isLength( {max:11} ),
+
+    validateFields
+], customerGetByDniRuc);
 
 router.post('/', [
     check('name', 'Se necesita un Nombre').not().isEmpty(),

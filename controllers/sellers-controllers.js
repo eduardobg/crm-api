@@ -44,6 +44,27 @@ const sellersGetById = async(req, res = response) => {
 
 }
 
+const sellersGetByDni = async(req, res = response) => {
+
+    const { dni } = req.params;
+    const _idConditional = {dni : dni};
+
+    Seller.findOne(_idConditional, (err, sellerDB ) => {
+        if(err){
+            //throw new Error(err);
+            return res.status(400).json({
+                ok: 'false',
+                err
+            });
+        }
+        return res.json({
+            ok:'true',
+            sellerDB: sellerDB
+        });
+    });
+
+}
+
 const sellersPost = async(req, res = response) => {
 
     //Error validator 
@@ -115,5 +136,6 @@ module.exports = {
     sellersPost,
     sellersPut,
     sellersStatePut,
-    sellersGetById
+    sellersGetById,
+    sellersGetByDni
 }

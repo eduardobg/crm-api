@@ -4,19 +4,20 @@ const Seller = require('../models/seller.js');
 const Distribution = require('../models/distribution.js');
 const Template = require('../models/template.js');
 
-const customerDniExists = async(dni = '') => {
+const supervisorDniExists = async(dni = '') => {
 
-    const dniExists = await Customer.findOne( {dni} );
+    const dniExists = await Supervisor.findOne( {dni} );
     if( dniExists ){
-        throw new Error(`El dni ${dni} ya esta registrado!, Prueba con otro`)
+        throw new Error(`El dni ${dni} ya esta registrado por un Supervisor!, Prueba con otro`)
     }
 }
 
 const sellerDniExists = async(dni = '') => {
 
     const dniExists = await Seller.findOne( {dni} );
+    
     if( dniExists ){
-        throw new Error(`El dni ${dni} ya esta registrado!, Prueba con otro`)
+        throw new Error(`El dni ${dni} ya esta registrado por un Vendedor!, Prueba con otro`)
     }
 }
 
@@ -24,7 +25,7 @@ const customerEmailExists = async(email = '') => {
 
     const emailExists = await Customer.findOne( {email} );
     if( emailExists ){
-        throw new Error(`El ${email} ya esta siendo utilizado! Prueba con otra`)
+        throw new Error(`El ${email} ya esta siendo utilizado! Prueba con otro!`)
     }
 }
 
@@ -95,7 +96,7 @@ const templateExistsById = async( id) => {
 }
 
 module.exports = {
-    customerDniExists,
+    supervisorDniExists,
     sellerDniExists,
     customerEmailExists,
     sellerEmailExists,

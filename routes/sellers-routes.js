@@ -4,7 +4,7 @@ const { check } = require('express-validator');
 const { validateFields } = require('../middleware/validate-fields');
 
 const {
-    customerDniExists,
+    supervisorDniExists,
     sellerDniExists,
     customerEmailExists,
     sellerEmailExists, 
@@ -17,7 +17,8 @@ const {
     sellersPost,
     sellersPut,
     sellersStatePut,
-    sellersGetById
+    sellersGetById,
+    sellersGetByDni
 } = require('../controllers/sellers-controllers')
 
 const router = Router();
@@ -31,11 +32,21 @@ router.get('/:id',[
     validateFields
 ], sellersGetById);
 
+router.get('/dni/:dni',[
+    check('dni').not().isEmpty(),
+    check('dni').isNumeric(),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {min:8} ),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {max:8} ),
+
+    validateFields
+], sellersGetByDni);
+
 router.post('/', [
     check('dni').not().isEmpty(),
     check('dni').isNumeric(),
-    check('dni', 'El DNI debe tener al menos 8 caracteres').isLength( {min:8} ),
-    check('dni').custom(customerDniExists),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {min:8} ),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {max:8} ),
+    check('dni').custom(supervisorDniExists),
     check('dni').custom(sellerDniExists),
     check('name', 'Se necesita un Nombre').not().isEmpty(),
     check('password', 'La contraseña debe tener al menos 6 caracteres').isLength( {min:6} ),
@@ -49,7 +60,12 @@ router.post('/', [
 router.put('/:id', [
     check('id','No es un ID válido').isMongoId(),
     check('id').custom( sellerExistsById ),
-
+    check('dni').not().isEmpty(),
+    check('dni').isNumeric(),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {min:8} ),
+    check('dni', 'El DNI debe tener 8 caracteres').isLength( {max:8} ),
+    check('dni').custom(supervisorDniExists),
+    check('dni').custom(sellerDniExists),
     validateFields
 ],sellersPut);
 
